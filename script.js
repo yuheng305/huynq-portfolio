@@ -183,6 +183,7 @@ function changeSlide(direction, totalSlides) {
 
 function showSection0() {
     // Ẩn tất cả các phần tử với các id cụ thể
+    w3_close();
     const idsToHide = ['cubing']
     idsToHide.forEach(id => {
         const element = document.getElementById(id);
@@ -203,6 +204,7 @@ function showSection0() {
 
 function showSection() {
     // Ẩn tất cả các phần tử với các id cụ thể
+    w3_close();
     const idsToHide = ['about', 'portfolio', 'content']
     idsToHide.forEach(id => {
         const element = document.getElementById(id);
