@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+          font-family: "Raleway", sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Thành tích chính thức</h1>
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th>Bộ Môn</th>
+                <th>Single</th>
+                <th>Thứ hạng quốc gia</th>
+                <th>Average</th>
+                <th>Thứ hạng quốc gia</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be inserted here -->
+        </tbody>
+    </table>
+
+    <h1> Thành tích không chính thức</h1>
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th>Bộ Môn</th>
+                <th>Single</th>
+                <th>Average</th>
+                <th>Video</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+              <td>2x2x2 Cube</td>
+              <td>0.99</td>
+              <td>3.02</td>
+              <td></td>
+            </tr>
+
+            <tr>
+              <td>3x3x3 Cube</td>
+              <td>5.34</td>
+              <td>8.56</td>
+              <td><a href="https://www.youtube.com/shorts/Di2pC-2Ztfc" target="_blank">Link</a></td>
+            </tr>  
+
+            <tr>
+              <td>4x4x4 Cube</td>
+              <td>32.82</td>
+              <td>37.37</td>
+              <td></td>
+            </tr>
+
+            <tr>
+              <td>5x5x5 Cube</td>
+              <td>1:11.95</td>
+              <td>1:21.99</td>
+              <td></td>
+            </tr>  
+            
+            <tr>
+              <td>3x3x3 One-Handed</td>
+              <td>11.71</td>
+              <td>17.52</td>
+              <td></td>
+            </tr>
+
+            <tr>
+              <td>3x3x3 Blindfolded</td>
+              <td>2:52.76</td>
+              <td></td>
+              <td><a href="https://www.youtube.com/watch?v=qUJ-5A31v8I" target="_blank">Link</a></td>
+            </tr>
+              
+            <tr>
+              <td>4x4x4 Blindfolded</td>
+              <td>9:39.393</td>
+              <td></td>
+              <td><a href="https://www.youtube.com/watch?v=e0PtW19MuF0" target="_blank">Link</a></td>
+            </tr>
+
+            <tr>
+              <td>3x3x3 Multi Blindfolded</td>
+              <td>4/4</td>
+              <td></td>
+              <td><a href="https://drive.google.com/file/d/10HuGHo8lA3CkUIbguPqcsV3ATxmN4oyb/view?usp=sharing" target="_blank">Link</a></td>
+            </tr>
+              
+
+
+
+            </tr>
+        </tbody>
+
+    <script>
+        async function fetchData() {
+            const response = await fetch('https://www.worldcubeassociation.org/api/v0/persons/2017HUYN10');
+            const data = await response.json();
+            return data;
+        }
+        function formatTime(time) {
+          // Nếu time là số, chuyển nó thành chuỗi để xử lý
+          if (typeof time === 'number') {
+              time = time.toString();
+          }
+
+          // Đảm bảo rằng thời gian có ít nhất 3 chữ số
+          time = time.padStart(3, '0');
+
+          // Tách mili giây và giây
+          let milliseconds = time.slice(-2); // Hai chữ số cuối cùng là mili giây
+          let totalSeconds = parseInt(time.slice(0, -2), 10);
+
+          // Chia số giây thành phút và giây
+          let minutes = Math.floor(totalSeconds / 60);
+          let seconds = totalSeconds % 60;
+
+          // Định dạng kết quả
+          if (minutes > 0) {
+              // Nếu có phút, hiển thị phút, giây và mili giây
+              return `${minutes}:${seconds.toString().padStart(2, '0')}.${milliseconds}`;
+          } else {
+              // Nếu không có phút, chỉ hiển thị giây và mili giây
+              return `${seconds}.${milliseconds}`;
+          }
+      }
+
+
+        function populateTable(personalRecords) {
+            const tableBody = document.querySelector('#data-table tbody');
+            tableBody.innerHTML = ''; // Clear existing rows
+
+            for (const [event, records] of Object.entries(personalRecords)) {
+                const row = document.createElement('tr');
+
+                const eventCell = document.createElement('td');
+                eventCell.textContent = event;
+                switch(event){
+                    case '222':
+                        eventCell.textContent = '2x2x2 Cube';
+                        break;
+                    case '333':
+                        eventCell.textContent = '3x3x3 Cube';
+                        break;
+                    case '444':
+                        eventCell.textContent = '4x4x4 Cube';
+                        break;
+                    case '555':
+                        eventCell.textContent = '5x5x5 Cube';
+                        break;
+                    case '333bf':
+                        eventCell.textContent = '3x3x3 Blindfolded';
+                        break;
+                    case '333oh':
+                        eventCell.textContent = '3x3x3 One-Handed';
+                        break;
+                    default:
+                        eventCell.textContent = event;
+                        break;
+                }
+                row.appendChild(eventCell);
+
+                // Single Best
+                const bestSingleCell = document.createElement('td');
+                bestSingleCell.textContent = formatTime(records.single.best);
+                row.appendChild(bestSingleCell);
+
+                const countryRankSingleCell = document.createElement('td');
+                countryRankSingleCell.textContent = records.single.country_rank;
+                row.appendChild(countryRankSingleCell);
+
+                // Average Best
+                const bestAverageCell = document.createElement('td');
+                bestAverageCell.textContent = records.average ? formatTime(records.average.best) : 'N/A';
+                row.appendChild(bestAverageCell);
+
+                const countryRankAverageCell = document.createElement('td');
+                countryRankAverageCell.textContent = records.average ? records.average.country_rank : 'N/A';
+                row.appendChild(countryRankAverageCell);
+
+                tableBody.appendChild(row);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const data = await fetchData();
+                populateTable(data.personal_records);
+            } catch (error) {
+                console.error('Error fetching or displaying data:', error);
+            }
+        });
+    </script>
+</body>
+</html>
