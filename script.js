@@ -219,3 +219,25 @@ function showSection() {
         section.classList.remove('hidden');
     }
 }
+
+function showSection1() {
+    // Ẩn tất cả các phần tử với các id cụ thể
+    w3_close();
+    const idsToHide = ['cubing']
+    idsToHide.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.classList.add('hidden');
+        }
+    });
+
+    // Hiển thị phần tử có id tương ứng
+    const idsToShow = ['about','portfolio', 'content']
+   idsToShow.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.classList.remove('hidden');
+        }
+    });
+}
+
